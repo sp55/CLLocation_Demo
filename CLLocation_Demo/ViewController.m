@@ -42,6 +42,7 @@
     [_manager startUpdatingLocation];
     [_manager startUpdatingHeading];
     
+     [_manager requestWhenInUseAuthorization];
     
     //地理编码
     _geoC = [[CLGeocoder alloc] init];
@@ -63,7 +64,7 @@
     [_mapView setRegion:region animated:YES];
     
     
-//    NSLog(@"--纬度--%f--经度--%f",location.coordinate.latitude,location.coordinate.longitude);
+    NSLog(@"--纬度--%f--经度--%f",location.coordinate.latitude,location.coordinate.longitude);
     self.lat = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
     self.lon = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
 
@@ -114,6 +115,18 @@
 
 #pragma mark - 反编码
 - (IBAction)regGeo:(id)sender {
+    //上海市灵验南路地铁站
+    /*
+     地址详情==上海市->浦东新区->灵岩南路->上海市浦东新区灵岩南路
+     纬度==31.150480
+     经度==121.497311
+     */
+    //河南省郑州市金水区
+    /*
+     地址详情==郑州市->金水区->(null)->河南省郑州市金水区
+     纬度==34.775838
+     经度==113.68603
+     */
     [_geoC geocodeAddressString:@"上海市灵验南路地铁站" completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         
         // CLPlacemark : 地标
@@ -127,7 +140,7 @@
             CLPlacemark *pl = [placemarks firstObject];
             
             
-            NSLog(@"=地址详情==%@%@%@%@\n 纬度==%f\n 经度==%f",pl.locality,pl.subLocality,pl.thoroughfare,pl.name,pl.location.coordinate.latitude,pl.location.coordinate.longitude);
+            NSLog(@"=地址详情==%@->%@->%@->%@\n 纬度==%f\n 经度==%f",pl.locality,pl.subLocality,pl.thoroughfare,pl.name,pl.location.coordinate.latitude,pl.location.coordinate.longitude);
             
             //            self.addressTV.text = pl.name;
             //            self.latitudeTF.text = @(pl.location.coordinate.latitude).stringValue;
